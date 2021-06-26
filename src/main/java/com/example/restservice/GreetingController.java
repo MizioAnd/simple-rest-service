@@ -15,13 +15,18 @@ public class GreetingController {
     @GetMapping("/greeting")
     public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) throws Exception {
         PythonForAPI pythonForAPI = new PythonForAPI();
-        // String out = pythonForAPI.pythonWrapper();
-
         String out = pythonForAPI.givenPythonScript_whenPythonProcessInvoked_thenSuccess();
-        // try(pythonForAPI.givenPythonScript_whenPythonProcessInvoked_thenSuccess()){}
+
+        RForAPI rForAPI = new RForAPI();
+        String mean = rForAPI.mean();
+
+        // int[] values = new int[]{
+        //     1,2,3
+        // };
 
         // return new Greeting(counter.incrementAndGet(), String.format(template, "hello"));
         // return new Greeting(counter.incrementAndGet(), String.format(template, name));
-        return new Greeting(counter.incrementAndGet(), String.format(template, out));
+        // return new Greeting(counter.incrementAndGet(), String.format(template, out));
+        return new Greeting(counter.incrementAndGet(), String.format(template, mean));
     }
 }
