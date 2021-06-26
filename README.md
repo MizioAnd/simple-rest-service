@@ -20,8 +20,11 @@ $ curl http://localhost:8080/greeting?name=Superman | jq '.'
 
 ## When running service with input from .R file using rserve
 Open a R session in RStudio and run the following commands in the console to start rserve
+
 $ install.packages("Rserve")
+
 $ library("Rserve")
+
 $ Rserve(args = "--no-save")
 
 This will allow the microservice to create an R connection and run R commands.
