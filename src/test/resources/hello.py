@@ -7,4 +7,4 @@ print("Hello Python here")
 # import syds
 from example_package import example
 out = example.add_one(22)
-print("Does it print a number %s" % out)
+print("Does it print a number 22+1= %s" % out)
