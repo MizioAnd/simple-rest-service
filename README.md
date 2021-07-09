@@ -41,6 +41,14 @@ $ Rserve(args = "--RS-source ~/script.R")
 ## When running service with input from .py file
 A python file hello.py is located in src/test/resources/ in is used as input for ProcessBuilder.
 
-The ProcessBuilder class provides methods for creating and configuring operating system processes. Each ProcessBuilder instance allows us to manage a collection of process attributes. We can then start a new Process with those given attributes. We can use the ProcessBuilder API to create a native operating system process to launch python and execute our simple script.
+The python scripts imports a method from a custom python pkg example-pkg-mizioand. Therefore we need to first install that package into our local environment. Now assuming the local virtual env is already activated run this cmd, 
+
+$ python3 -m pip install --no-deps example-pkg-mizioand-0.0.1.tar.gz
+
+More instructions on how the custom python pkg was made can be found here,
+
+https://github.com/MizioAnd/python-pkg-template
+
+The Java ProcessBuilder class provides methods for creating and configuring operating system processes. Each ProcessBuilder instance allows us to manage a collection of process attributes. We can then start a new Process with those given attributes. We can use the ProcessBuilder API to create a native operating system process to launch python and execute our simple script.
 
 It has been tested exceptions from python are shown in json output instead of status 500 "Internal Server Error" in case of a python exception thrown inside the python script.

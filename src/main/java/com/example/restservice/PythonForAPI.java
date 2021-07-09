@@ -1,6 +1,6 @@
 package com.example.restservice;
 
-import org.python.util.PythonInterpreter;
+// import org.python.util.PythonInterpreter;
 
 // import org.junit.Test;
 import java.io.BufferedReader;
@@ -12,7 +12,7 @@ import java.io.StringWriter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PythonForAPI{
+public class PythonForAPI {
 
     // public PythonForAPI() {}
 
@@ -28,7 +28,7 @@ public class PythonForAPI{
 
     // @Test
     public String givenPythonScript_whenPythonProcessInvoked_thenSuccess() throws Exception {
-        ProcessBuilder processBuilder = new ProcessBuilder("python", resolvePythonScriptPath("hello.py"));
+        ProcessBuilder processBuilder = new ProcessBuilder("python3", resolvePythonScriptPath("hello.py"));
         processBuilder.redirectErrorStream(true);
 
         Process process = processBuilder.start();
