@@ -10,6 +10,9 @@ public class RForAPI {
         RConnection c = new RConnection();
         // double d = c.eval("print(paste(\'Hello from R:\', mean(c(1,2,3))));").asDouble();
         String d = c.eval("res <- mean(c(1,2,3));print(paste('Hello from R:',res));").asString();
+        // With error library('hello');
+        // String d = c.eval("res <- mean(c(1,2,3));library('hello');print(paste('Hello from R:',res));").asString();
+        
         System.out.println(d);
         return d;
     }
