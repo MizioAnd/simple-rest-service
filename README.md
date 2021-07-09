@@ -18,6 +18,12 @@ $ curl http://localhost:8080/greeting | jq '.'
 
 $ curl http://localhost:8080/greeting?name=Superman | jq '.'
 
+In case of error msg like,
+"java.net.ConnectException: Connection refused (Connection refused)"
+"org.rosuda.REngine.Rserve.RConnection.<init>(RConnection.java:85)"
+
+Jump to section for Rserve since it needs to run in order for java to create a RConnection.
+
 ## When running service with input from .R file using rserve
 Open a R session in RStudio and run the following commands in the console to start rserve
 
