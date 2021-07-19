@@ -33,6 +33,9 @@ $ library("Rserve")
 
 $ Rserve(args = "--no-save")
 
+Or just start an R session from terminal and run
+$ install.packages("Rserve");library("Rserve");Rserve(args = "--no-save");
+
 This will allow the microservice to create an R connection and run R commands.
 We still need to work a bit on exception handling such exceptions from R gets shown in the microservice json output instead of a status 500 "Internal Server Error". In case of calling an R script we would need something like,
 
