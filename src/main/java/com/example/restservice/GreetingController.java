@@ -29,4 +29,9 @@ public class GreetingController {
         return new Greeting(counter.incrementAndGet(), String.format(template, out));
         // return new Greeting(counter.incrementAndGet(), String.format(template, mean));
     }
+
+    @GetMapping("/greeting/version")
+    public String getVersionInfo(){
+        return "Version - V1";
+    }
 }
