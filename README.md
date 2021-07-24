@@ -55,3 +55,8 @@ https://github.com/MizioAnd/python-pkg-template
 The Java ProcessBuilder class provides methods for creating and configuring operating system processes. Each ProcessBuilder instance allows us to manage a collection of process attributes. We can then start a new Process with those given attributes. We can use the ProcessBuilder API to create a native operating system process to launch python and execute our simple script.
 
 It has been tested exceptions from python are shown in json output instead of status 500 "Internal Server Error" in case of a python exception thrown inside the python script.
+
+## Swagger API functionalities
+The /greeting endpt can be accessed through Swagger on
+
+http://localhost:8081/swagger-ui.html
