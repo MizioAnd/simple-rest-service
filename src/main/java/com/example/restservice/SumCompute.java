@@ -28,6 +28,8 @@ public class SumCompute implements Runnable {
         System.out.println("Starting thread: " + threadName);
         if (t == null) {
             t = new Thread(this, threadName);
+            // Start is called on thread which executes a call to run() method that resides inside the thread object.
+            // Since this points to the class itself, it will call run() in SumCompute
             t.start();
         }
     }
