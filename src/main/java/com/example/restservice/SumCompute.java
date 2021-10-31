@@ -3,9 +3,20 @@ package com.example.restservice;
 public class SumCompute implements Runnable {
     private Thread t;
     private String threadName;
+    private int sumNumber;
+    private int result;
 
-    SumCompute ( String name) {
+    public int getResult() {
+        return result;
+    }
+
+    public void setResult(int result) {
+        this.result = result;
+    }
+
+    SumCompute ( String name, int number) {
         threadName = name;
+        sumNumber = number;
         System.out.println("Creating thread:" + threadName);
     }
 
@@ -13,11 +24,20 @@ public class SumCompute implements Runnable {
     public void run() {
         System.out.println("Running thread:" + threadName);
         try {
-            for(int i=3; i>0; i--) {
-                System.out.println("Thread: " + threadName + "," + i);
-                // Make thread sleep
-                Thread.sleep(50);
+            int sum = 0;
+            for(int i=sumNumber; i>0; i--) {
+                sum = sum + i;
             }
+            setResult(sum);
+            System.out.println("Thread: " + threadName + ", sum: " + sum);
+            // Make thread sleep
+            Thread.sleep(50);
+
+//            for(int i=3; i>0; i--) {
+//                System.out.println("Thread: " + threadName + "," + i);
+//                // Make thread sleep
+//                Thread.sleep(50);
+//            }
         } catch (InterruptedException e) {
             System.out.println("Thread " + threadName + " interrupted");
         }
@@ -33,4 +53,5 @@ public class SumCompute implements Runnable {
             t.start();
         }
     }
+
 }
