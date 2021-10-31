@@ -23,4 +23,12 @@ public class SumCompute implements Runnable {
         }
         System.out.println("Thread: " + threadName + " exiting.");
     }
+
+    public void start() {
+        System.out.println("Starting thread: " + threadName);
+        if (t == null) {
+            t = new Thread(this, threadName);
+            t.start();
+        }
+    }
 }
