@@ -23,12 +23,11 @@ public class SumCompute implements Runnable {
     @Override
     public void run() {
         System.out.println("Running thread:" + threadName);
+        int sum = 0;
         try {
-            int sum = 0;
             for(int i=sumNumber; i>0; i--) {
                 sum = sum + i;
             }
-            setResult(sum);
             System.out.println("Thread: " + threadName + ", sum: " + sum);
             // Make thread sleep
             Thread.sleep(50);
@@ -42,6 +41,7 @@ public class SumCompute implements Runnable {
             System.out.println("Thread " + threadName + " interrupted");
         }
         System.out.println("Thread: " + threadName + " exiting.");
+        setResult(sum);
     }
 
     public void start() {
