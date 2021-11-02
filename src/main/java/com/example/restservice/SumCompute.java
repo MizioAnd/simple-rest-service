@@ -25,6 +25,10 @@ class ThreadCompute implements Runnable {
         this.result = result;
     }
 
+    public Thread gett() {
+        return t;
+    }
+
     ThreadCompute ( String name, int number, SumCompute sc) {
         SC = sc;
         threadName = name;
