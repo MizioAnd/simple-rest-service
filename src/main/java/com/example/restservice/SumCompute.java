@@ -1,8 +1,19 @@
 package com.example.restservice;
 
-public class SumCompute implements Runnable {
+class SumCompute {
+    public int computeSum(int sumNumber){
+        int sum = 0;
+        for(int i=sumNumber; i>0; i--) {
+            sum = sum + i;
+        }
+        return sum;
+    }
+}
+
+class ThreadCompute implements Runnable {
     private Thread t;
     private String threadName;
+    SumCompute SC;
     private int sumNumber;
     private int result;
 
@@ -14,7 +25,8 @@ public class SumCompute implements Runnable {
         this.result = result;
     }
 
-    SumCompute ( String name, int number) {
+    ThreadCompute ( String name, int number, SumCompute sc) {
+        SC = sc;
         threadName = name;
         sumNumber = number;
         System.out.println("Creating thread:" + threadName);
@@ -22,13 +34,16 @@ public class SumCompute implements Runnable {
 
     @Override
     public void run() {
+        synchronized (SC){
+            System.out.println("Thread: " + threadName + ", sum: " + SC.computeSum(sumNumber));
+        }
         System.out.println("Running thread:" + threadName);
-        int sum = 0;
+//        int sum = 0;
         try {
-            for(int i=sumNumber; i>0; i--) {
-                sum = sum + i;
-            }
-            System.out.println("Thread: " + threadName + ", sum: " + sum);
+//            for(int i=sumNumber; i>0; i--) {
+//                sum = sum + i;
+//            }
+//            System.out.println("Thread: " + threadName + ", sum: " + sum);
             // Make thread sleep
             Thread.sleep(50);
 
@@ -41,7 +56,7 @@ public class SumCompute implements Runnable {
             System.out.println("Thread " + threadName + " interrupted");
         }
         System.out.println("Thread: " + threadName + " exiting.");
-        setResult(sum);
+        setResult(SC.computeSum(sumNumber));
     }
 
     public void start() {
@@ -53,5 +68,12 @@ public class SumCompute implements Runnable {
             t.start();
         }
     }
-
+    public void join() {
+        System.out.println("Join thread: " + threadName);
+        try {
+            t.join();
+        } catch (Exception e) {
+            System.out.println("Interrupted");
+        }
+    }
 }
