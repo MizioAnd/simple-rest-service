@@ -10,8 +10,8 @@ class SumCompute {
     }
 }
 
-class ThreadCompute implements Runnable {
-    private Thread t;
+class ThreadCompute implements Runnable{
+    public Thread t;
     private String threadName;
     SumCompute SC;
     private int sumNumber;
@@ -21,6 +21,9 @@ class ThreadCompute implements Runnable {
         return result;
     }
 
+    public String getThreadName(){
+        return threadName;
+    }
     public void setResult(int result) {
         this.result = result;
     }
@@ -42,20 +45,11 @@ class ThreadCompute implements Runnable {
             System.out.println("Thread: " + threadName + ", sum: " + SC.computeSum(sumNumber));
         }
         System.out.println("Running thread:" + threadName);
-//        int sum = 0;
         try {
-//            for(int i=sumNumber; i>0; i--) {
-//                sum = sum + i;
-//            }
-//            System.out.println("Thread: " + threadName + ", sum: " + sum);
             // Make thread sleep
-            Thread.sleep(50);
-
-//            for(int i=3; i>0; i--) {
-//                System.out.println("Thread: " + threadName + "," + i);
-//                // Make thread sleep
-//                Thread.sleep(50);
-//            }
+            Thread.sleep(1500);
+            System.out.println("State of thread after calling .sleep() on it: " + t.getState() + ", " + threadName);
+            Thread.sleep(200);
         } catch (InterruptedException e) {
             System.out.println("Thread " + threadName + " interrupted");
         }
@@ -67,17 +61,12 @@ class ThreadCompute implements Runnable {
         System.out.println("Starting thread: " + threadName);
         if (t == null) {
             t = new Thread(this, threadName);
+            System.out.println("State of thread after creation: " + t.getState() + ", " + threadName);
+
             // Start is called on thread which executes a call to run() method that resides inside the thread object.
             // Since this points to the class itself, it will call run() in SumCompute
             t.start();
-        }
-    }
-    public void join() {
-        System.out.println("Join thread: " + threadName);
-        try {
-            t.join();
-        } catch (Exception e) {
-            System.out.println("Interrupted");
+            System.out.println("State of thread after calling .start() on it: " + t.getState() + ", " + threadName);
         }
     }
 }
