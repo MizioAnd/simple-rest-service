@@ -1,20 +1,17 @@
 package com.example.restservice;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ReportJob implements Runnable{
     private Thread t;
     private String threadName;
-    private int result;
+    private ArrayList<Integer> results;
     private ArrayList<ThreadCompute> threads;
 
-    public int getResult() {
-        return result;
-    }
-
-    public void setResult(int result) {
-        this.result = result;
+    public ArrayList<Integer> getResults() {
+        return results;
     }
 
     ReportJob () {
@@ -22,12 +19,11 @@ public class ReportJob implements Runnable{
     }
     private void createThreads() {
         // Create thread names
-        int threadsCount = 2;
+        int threadsCount = 6;
         ArrayList<String> threadNames = new ArrayList<>(threadsCount);
         for (int i=1; i <= threadsCount; i++) {
             threadNames.add("thread-" + i);
         }
-
         SumCompute sc = new SumCompute();
         int sumNumber = 3;
         threads = new ArrayList<>(threadsCount);
@@ -44,6 +40,15 @@ public class ReportJob implements Runnable{
             System.out.println("State of thread after calling .sleep() on it 1: " + threadCompute.gett().getState() + ", " + element);
             sumNumber++;
         }
+    }
+
+    private void printResults() {
+        results = new ArrayList<>(threads.size());
+        for (ThreadCompute i: threads) {
+            System.out.println("Thread result: " + i.getResult() + ", " + i.getThreadName());
+            results.add(i.getResult());
+        }
+        System.out.println("Report Job results of threads:" + results);
     }
 
     @Override
@@ -65,8 +70,9 @@ public class ReportJob implements Runnable{
             System.out.println("Interrupted");
         }
 
+        printResults();
+        gc();
         System.out.println("Thread: " + threadName + " exiting.");
-//        setResult(sum);
     }
 
     public void start() {
@@ -80,6 +86,10 @@ public class ReportJob implements Runnable{
             t.start();
             System.out.println("State of thread after calling .start() on it: " + t.getState() + ", " + threadName);
         }
+    }
+
+    private void gc() {
+        threads = null;
     }
 
 }

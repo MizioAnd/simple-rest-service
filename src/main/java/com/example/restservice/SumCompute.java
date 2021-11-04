@@ -42,6 +42,7 @@ class ThreadCompute implements Runnable{
     @Override
     public void run() {
         synchronized (SC){
+            result = SC.computeSum(sumNumber);
             System.out.println("Thread: " + threadName + ", sum: " + SC.computeSum(sumNumber));
         }
         System.out.println("Running thread:" + threadName);
