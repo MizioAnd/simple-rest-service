@@ -6,7 +6,7 @@ public class TestMyThreads {
     public static void main(String args[]) {
 
         // Create report job
-        ReportJob reportJob = new ReportJob();
+        ReportJob reportJob = new ReportJob(100);
         reportJob.start();
     }
 }

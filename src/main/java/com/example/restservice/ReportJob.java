@@ -99,6 +99,15 @@ public class ReportJob implements Runnable{
 
     private void gc() {
         threads = null;
+
+        System.out.println("Total Memory: "+Runtime.getRuntime().totalMemory());
+        System.out.println("Free Memory: "+Runtime.getRuntime().freeMemory());
+        // Explicitly invoke the garbage collector. Works on any object created with keyword new.
+        System.gc();
+        System.out.println("After gc");
+        System.out.println("Total Memory: "+Runtime.getRuntime().totalMemory());
+        System.out.println("Free Memory: "+Runtime.getRuntime().freeMemory());
+
     }
 
 }
