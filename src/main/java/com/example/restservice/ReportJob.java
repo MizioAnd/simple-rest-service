@@ -1,11 +1,14 @@
 package com.example.restservice;
 
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ReportJob implements Runnable{
     private Thread t;
+    int threadsCount = 2;
     private String threadName;
     private ArrayList<Integer> results;
     private ArrayList<ThreadCompute> threads;
@@ -16,10 +19,16 @@ public class ReportJob implements Runnable{
 
     ReportJob () {
         threadName = "thread-report";
+        threadsCount = 2;
     }
+
+    ReportJob (int threads) {
+        this();
+        threadsCount = threads;
+    }
+
     private void createThreads() {
         // Create thread names
-        int threadsCount = 6;
         ArrayList<String> threadNames = new ArrayList<>(threadsCount);
         for (int i=1; i <= threadsCount; i++) {
             threadNames.add("thread-" + i);
