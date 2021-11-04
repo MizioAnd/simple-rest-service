@@ -34,19 +34,19 @@ public class ReportJob implements Runnable{
             threadNames.add("thread-" + i);
         }
         SumCompute sc = new SumCompute();
-        int sumNumber = 3;
+        int sumNumber = 500;
         threads = new ArrayList<>(threadsCount);
         for (String element: threadNames){
             ThreadCompute threadCompute = new ThreadCompute(element, sumNumber, sc);
             threads.add(threadCompute);
             threadCompute.start();
-            System.out.println("State of thread after being calling .start() by other: " + threadCompute.gett().getState() + ", " + element);
+            System.out.println("State of thread after being calling .start() by other: " + threadCompute.gett().getState() + ", " + threadCompute.getThreadName());
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {
                 System.out.println("Thread " + threadName + " interrupted");
             }
-            System.out.println("State of thread after calling .sleep() on it 1: " + threadCompute.gett().getState() + ", " + element);
+            System.out.println("State of thread after calling .sleep() on it 1: " + threadCompute.gett().getState() + ", " + threadCompute.getThreadName());
             sumNumber++;
         }
     }
@@ -70,7 +70,7 @@ public class ReportJob implements Runnable{
 
         try {
             for (ThreadCompute element: threads) {
-                // Join thread-report on all other threads, such that it will wait until they die before exiting
+                // Join all other threads on thread-report, such that thread-report is paused until all threads are dead
                 element.gett().join();
                 System.out.println("State of thread after being calling .join() by other: " + element.gett().getState() + ", " + element.getThreadName());
                 System.out.println("State of thread after calling .join() on it: " + t.getState() + ", " + threadName);

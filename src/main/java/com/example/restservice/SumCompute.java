@@ -3,7 +3,7 @@ package com.example.restservice;
 class SumCompute {
     public int computeSum(int sumNumber){
         int sum = 0;
-        for(int i=sumNumber; i>0; i--) {
+        for(int i = sumNumber; i > 0; i--) {
             sum = sum + i;
         }
         return sum;
@@ -62,12 +62,12 @@ class ThreadCompute implements Runnable{
         System.out.println("Starting thread: " + threadName);
         if (t == null) {
             t = new Thread(this, threadName);
-            System.out.println("State of thread after creation: " + t.getState() + ", " + threadName);
+            System.out.println("State of thread after creation: " + t.getState() + ", " + t.getName());
 
             // Start is called on thread which executes a call to run() method that resides inside the thread object.
             // Since this points to the class itself, it will call run() in SumCompute
             t.start();
-            System.out.println("State of thread after calling .start() on it: " + t.getState() + ", " + threadName);
+            System.out.println("State of thread after calling .start() on it: " + t.getState() + ", " + t.getName());
         }
     }
 }
