@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 public class ReportJob implements Runnable{
     private Thread t;
-    int threadsCount = 2;
+    int threadsCount;
     private String threadName;
     private ArrayList<Integer> results;
     private ArrayList<ThreadCompute> threads;
