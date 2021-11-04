@@ -1,9 +1,13 @@
 package com.example.restservice;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class ReportJob implements Runnable{
     private Thread t;
     private String threadName;
     private int result;
+    private ArrayList<ThreadCompute> threads;
 
     public int getResult() {
         return result;
@@ -17,20 +21,15 @@ public class ReportJob implements Runnable{
         threadName = "thread-report";
     }
 
-    @Override
-    public void run() {
-        System.out.println("Running thread:" + threadName);
-
-        // Report job is also master thread
-        // Create all threads
-        String[] threadNames = {"thread-1", "thread-2"};
+    private void createThreads() {
+        ArrayList<String> threadNames = new ArrayList<>(Arrays.asList("thread-1", "thread-2"));
+        int threadNamesCount = threadNames.size();
         SumCompute sc = new SumCompute();
-        int ite = 3;
-        int idxThread = 0;
-        ThreadCompute[] threads = new ThreadCompute[2];
+        int sumNumber = 3;
+        threads = new ArrayList<>(threadNamesCount);
         for (String element: threadNames){
-            ThreadCompute threadCompute = new ThreadCompute(element, ite, sc);
-            threads[idxThread] = threadCompute;
+            ThreadCompute threadCompute = new ThreadCompute(element, sumNumber, sc);
+            threads.add(threadCompute);
             threadCompute.start();
             System.out.println("State of thread after being calling .start() by other: " + threadCompute.gett().getState() + ", " + element);
             try {
@@ -39,9 +38,17 @@ public class ReportJob implements Runnable{
                 System.out.println("Thread " + threadName + " interrupted");
             }
             System.out.println("State of thread after calling .sleep() on it 1: " + threadCompute.gett().getState() + ", " + element);
-            idxThread++;
-            ite++;
+            sumNumber++;
         }
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Running thread:" + threadName);
+
+        // Report job is also master thread
+        // Create all threads
+        this.createThreads();
 
         try {
             for (ThreadCompute element: threads) {
