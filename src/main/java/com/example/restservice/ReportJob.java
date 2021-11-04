@@ -20,13 +20,17 @@ public class ReportJob implements Runnable{
     ReportJob () {
         threadName = "thread-report";
     }
-
     private void createThreads() {
-        ArrayList<String> threadNames = new ArrayList<>(Arrays.asList("thread-1", "thread-2"));
-        int threadNamesCount = threadNames.size();
+        // Create thread names
+        int threadsCount = 2;
+        ArrayList<String> threadNames = new ArrayList<>(threadsCount);
+        for (int i=1; i <= threadsCount; i++) {
+            threadNames.add("thread-" + i);
+        }
+
         SumCompute sc = new SumCompute();
         int sumNumber = 3;
-        threads = new ArrayList<>(threadNamesCount);
+        threads = new ArrayList<>(threadsCount);
         for (String element: threadNames){
             ThreadCompute threadCompute = new ThreadCompute(element, sumNumber, sc);
             threads.add(threadCompute);
