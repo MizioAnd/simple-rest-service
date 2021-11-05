@@ -102,6 +102,8 @@ public class ReportJob implements Runnable{
         System.out.println("Total Memory: "+Runtime.getRuntime().totalMemory());
         System.out.println("Free Memory: "+Runtime.getRuntime().freeMemory());
         // Explicitly invoke the garbage collector. Works on any object created with keyword new.
+
+        // Todo: memory is not cleared
         threads.clear();
         threads = null;
         System.gc();
