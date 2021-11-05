@@ -5,13 +5,14 @@ import com.fasterxml.jackson.databind.ser.std.StdKeySerializers;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Hashtable;
 
 public class ReportJob implements Runnable{
     private Thread t;
     int threadsCount;
     private String threadName;
     private ArrayList<Integer> results;
-    private ArrayList<ThreadCompute> threads;
+    private Hashtable<String, ThreadCompute> threads;
 
     public ArrayList<Integer> getResults() {
         return results;
@@ -35,10 +36,10 @@ public class ReportJob implements Runnable{
         }
         SumCompute sc = new SumCompute();
         int sumNumber = 500;
-        threads = new ArrayList<>(threadsCount);
+        threads = new Hashtable<>(threadsCount);
         for (String element: threadNames){
             ThreadCompute threadCompute = new ThreadCompute(element, sumNumber, sc);
-            threads.add(threadCompute);
+            threads.put(element, threadCompute);
             threadCompute.start();
             System.out.println("State of thread after being calling .start() by other: " + threadCompute.gett().getState() + ", " + threadCompute.getThreadName());
             try {
@@ -53,7 +54,7 @@ public class ReportJob implements Runnable{
 
     private void printResults() {
         results = new ArrayList<>(threads.size());
-        for (ThreadCompute i: threads) {
+        for (ThreadCompute i: threads.values()) {
             System.out.println("Thread result: " + i.getResult() + ", " + i.getThreadName());
             results.add(i.getResult());
         }
@@ -69,7 +70,7 @@ public class ReportJob implements Runnable{
         this.createThreads();
 
         try {
-            for (ThreadCompute element: threads) {
+            for (ThreadCompute element: threads.values()) {
                 // Join all other threads on thread-report, such that thread-report is paused until all threads are dead
                 element.gett().join();
                 System.out.println("State of thread after being calling .join() by other: " + element.gett().getState() + ", " + element.getThreadName());
@@ -98,12 +99,13 @@ public class ReportJob implements Runnable{
     }
 
     private void gc() {
-        threads = null;
-
         System.out.println("Total Memory: "+Runtime.getRuntime().totalMemory());
         System.out.println("Free Memory: "+Runtime.getRuntime().freeMemory());
         // Explicitly invoke the garbage collector. Works on any object created with keyword new.
+        threads.clear();
+        threads = null;
         System.gc();
+
         System.out.println("After gc");
         System.out.println("Total Memory: "+Runtime.getRuntime().totalMemory());
         System.out.println("Free Memory: "+Runtime.getRuntime().freeMemory());
