@@ -12,7 +12,7 @@ public class ReportJob implements Runnable{
     int threadsCount;
     private String threadName;
     private ArrayList<Integer> results;
-    private Hashtable<String, ThreadCompute> threads;
+    private Hashtable<String, ThreadCompute> threads = new Hashtable<>(threadsCount);
 
     public ArrayList<Integer> getResults() {
         return results;
@@ -36,12 +36,12 @@ public class ReportJob implements Runnable{
         }
         SumCompute sc = new SumCompute();
         int sumNumber = 500;
-        threads = new Hashtable<>(threadsCount);
         for (String element: threadNames){
-            ThreadCompute threadCompute = new ThreadCompute(element, sumNumber, sc);
-            threads.put(element, threadCompute);
+            threads.put(element, new ThreadCompute(element, sumNumber, sc));
+            var threadCompute = threads.get(element);
             threadCompute.start();
             System.out.println("State of thread after being calling .start() by other: " + threadCompute.gett().getState() + ", " + threadCompute.getThreadName());
+
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {
@@ -49,7 +49,12 @@ public class ReportJob implements Runnable{
             }
             System.out.println("State of thread after calling .sleep() on it 1: " + threadCompute.gett().getState() + ", " + threadCompute.getThreadName());
             sumNumber++;
+            threadCompute = null;
+            invokeGCAndPrintMemoryChange();
         }
+        threadNames = null;
+        sc = null;
+        invokeGCAndPrintMemoryChange();
     }
 
     private void printResults() {
@@ -98,20 +103,35 @@ public class ReportJob implements Runnable{
         }
     }
 
-    private void gc() {
-        System.out.println("Total Memory: "+Runtime.getRuntime().totalMemory());
-        System.out.println("Free Memory: "+Runtime.getRuntime().freeMemory());
+    private void invokeGCAndPrintMemoryChange() {
+        var totalMem = Runtime.getRuntime().totalMemory();
+        var freeMem = Runtime.getRuntime().freeMemory();
+        System.out.println("Total Memory: " + totalMem);
+        System.out.println("Free Memory: " + freeMem);
         // Explicitly invoke the garbage collector. Works on any object created with keyword new.
-
-        // Todo: memory is not cleared
-        threads.clear();
-        threads = null;
+        System.runFinalization();
+        // Needs to run inside the scope where variables were allocated memory, otherwise referenced objects are just moved to next survivor space and matured
+        // instead of deallocated
         System.gc();
 
+        var totalMemPost = Runtime.getRuntime().totalMemory();
+        var freeMemPost = Runtime.getRuntime().freeMemory();
         System.out.println("After gc");
-        System.out.println("Total Memory: "+Runtime.getRuntime().totalMemory());
-        System.out.println("Free Memory: "+Runtime.getRuntime().freeMemory());
+        System.out.println("Total Memory: " + totalMemPost);
+        System.out.println("Free Memory: " + freeMemPost);
+        var freeMemDiff = freeMemPost - freeMem;
+        var totalMemDiff = totalMemPost - totalMem;
+        System.out.println("Total Memory change: " + totalMemDiff + "\nFree Memory change: " + freeMemDiff);
+    }
 
+    private void gc() {
+        threads.clear();
+//        for (ThreadCompute element: threads.values()) {
+//            element = null;
+//        }
+        threads = null;
+        results = null;
+        invokeGCAndPrintMemoryChange();
     }
 
 }
